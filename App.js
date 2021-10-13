@@ -64,7 +64,9 @@ const App =() => {
         <Stack.Screen
           name="Chat"
           component={Chat}
-          // options={{ headerShown: false }}
+          options={({ route  }) => ({
+            title: route.params.SenderData.name + " " + route.params.SenderData.lname // Chat title 
+           })}
         />
       </Stack.Navigator>
     </NavigationContainer>
