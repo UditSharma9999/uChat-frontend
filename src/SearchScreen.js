@@ -13,6 +13,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
+import { Send } from 'react-native-gifted-chat';
 
 
 const SearchScreen = ({ route, navigation }) => {
@@ -21,6 +22,7 @@ const SearchScreen = ({ route, navigation }) => {
     const [Emails, setEmails] = useState([])
     const [Email, setEmail] = useState([]);
     const [Variable, setVariable] = useState(true);
+    const [SenderData,setSenderData] = useState([]);
     const [searchQuery, setSearchQuery] = React.useState('');
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -30,7 +32,7 @@ const SearchScreen = ({ route, navigation }) => {
 
         console.log('_MyData', _MyData);
 
-        let x = await axios.post('http://192.168.1.5:8000/Router/search');
+        let x = await axios.post('http://192.168.1.6:8000/Router/search');
         console.log(x.data.message);
 
         const email = []
@@ -51,6 +53,13 @@ const SearchScreen = ({ route, navigation }) => {
             navigation.navigate('ChatRoom');
         })
     })
+
+
+    // const fetchData = async (email) => {
+    //     let x = await axios.post('http://192.168.1.6:8000/Router/search', { 'email': email }); 
+    //     console.log("x",x.data.message[0]);
+    //     setSenderData(x.data.message[0]);
+    // }
 
     const startLoading = () => {
         setTimeout(() => {
@@ -73,6 +82,7 @@ const SearchScreen = ({ route, navigation }) => {
                 <Text style={{ fontSize: 20 }}>{email}</Text>
             </View>
             {console.log('email ==>', email)}
+
             <TouchableOpacity
                 style={{
                     height: 30,
@@ -85,10 +95,14 @@ const SearchScreen = ({ route, navigation }) => {
                     justifyContent: 'center',
                     backgroundColor: '#8a2be2',
                 }}
-                onPress={() => {
+                onPress={async () => {
+
+                    let x = await axios.post('http://192.168.1.6:8000/Router/search', { 'email': email }); 
+                    console.log("x",x.data.message[0]);
+
                     navigation.navigate('Chat', {
-                        SenderData: { "email": email },
-                        _MyData: _MyData,
+                        SenderData: x.data.message[0],
+                        _MyData: _MyData,   
                         _value: false,
                         newUser:email
                     });
