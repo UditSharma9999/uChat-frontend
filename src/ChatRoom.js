@@ -28,13 +28,13 @@ const ChatRoom = ({ route, navigation }) => {
         token: "",
     });
     // const [OtherUserEmailId, setOtherUserEmailId] = useState([]);
-    const socket = io("http://192.168.1.5:8000/");
+    const socket = io("http://192.168.1.6:8000/");
     const [OtherUserDetails, setOtherUserDetails] = useState([])
     const [Variable, setVariable] = useState(true);
 
     const [FetchUserData, setFetchUserData] = useState(async () => {
         let x = await AsyncStorage.getItem('Jwt');
-        let Response = await axios.post('http://192.168.1.5:8000/Router/isSignUp', { 'token': x });
+        let Response = await axios.post('http://192.168.1.6:8000/Router/isSignUp', { 'token': x });
 
         // console.log('Response.data.message[0]', Response.data.message[0])
         return Response.data.message[0];
@@ -47,7 +47,7 @@ const ChatRoom = ({ route, navigation }) => {
             ...value
         }));
 
-        // let x = await axios.post('http://192.168.1.5:8000/Router/chatroom', { 'email': value.email });
+        // let x = await axios.post('http://192.168.1.6:8000/Router/chatroom', { 'email': value.email });
         // // console.log('x.data', x.data.EmailArray);
 
         // if (x.data.EmailArray.length != 0) {
@@ -60,7 +60,7 @@ const ChatRoom = ({ route, navigation }) => {
 
 
         //     if (filteredArr.length != 0) {
-        //         let x = await axios.post('http://192.168.1.5:8000/Router/user', { 'email': filteredArr });
+        //         let x = await axios.post('http://192.168.1.6:8000/Router/user', { 'email': filteredArr });
         //         // console.log("x.data.message", x.data.message)
         //         setOtherUserDetails(x.data.message);
         //     }
@@ -97,7 +97,7 @@ const ChatRoom = ({ route, navigation }) => {
 
     // useEffect(() => {
 
-    //     const socket = io("http://192.168.1.5:8000/");
+    //     const socket = io("http://192.168.1.6:8000/");
 
     //     socket.emit("chat message", {
     //         "OtherUserEmailId": OtherUserEmailId,
@@ -173,7 +173,7 @@ const ChatRoom = ({ route, navigation }) => {
         return (
             <TouchableOpacity
                 onPress={() => {
-                    // console.log('item', item);
+                    console.log('item', item);
                     navigation.navigate('Chat', {
                         SenderData: item,
                         _MyData: MyData,
@@ -207,7 +207,7 @@ const ChatRoom = ({ route, navigation }) => {
                 <View style={styles.screen}>
                     {/* {console.log("OtheruserEmail", OtherUserEmailId)} */}
                     <FlatList
-                        data={OtherUserDetails}
+                        data={ OtherUserDetails } // to get new user at top
                         renderItem={renderItem}
                         style={styles.list}
                     />
