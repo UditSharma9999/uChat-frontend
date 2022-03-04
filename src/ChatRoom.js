@@ -27,7 +27,6 @@ const ChatRoom = ({ route, navigation }) => {
         password: "",
         token: "",
     });
-    // const [OtherUserEmailId, setOtherUserEmailId] = useState([]);
     const socket = io("http://192.168.1.6:8000/");
     const [OtherUserDetails, setOtherUserDetails] = useState([])
     const [Variable, setVariable] = useState(true);
@@ -36,40 +35,14 @@ const ChatRoom = ({ route, navigation }) => {
         let x = await AsyncStorage.getItem('Jwt');
         let Response = await axios.post('http://192.168.1.6:8000/Router/isSignUp', { 'token': x });
 
-        // console.log('Response.data.message[0]', Response.data.message[0])
         return Response.data.message[0];
     });
     const UserData = async () => {
         let value = await FetchUserData;
-        // console.log('value', value);
 
         setMyData(() => ({
             ...value
         }));
-
-        // let x = await axios.post('http://192.168.1.6:8000/Router/chatroom', { 'email': value.email });
-        // // console.log('x.data', x.data.EmailArray);
-
-        // if (x.data.EmailArray.length != 0) {
-            //     // console.log("x.data.EmailArray.lemn !=0 ")
-
-        //     const filteredArr = x.data.EmailArray;
-
-        //     // console.log("x.data.EmailArray.lemn !=0 ", filteredArr);
-        //     setOtherUserEmailId(filteredArr);
-
-
-        //     if (filteredArr.length != 0) {
-        //         let x = await axios.post('http://192.168.1.6:8000/Router/user', { 'email': filteredArr });
-        //         // console.log("x.data.message", x.data.message)
-        //         setOtherUserDetails(x.data.message);
-        //     }
-        //     // console.log('OtherUserDetails', OtherUserDetails);
-
-        //     // for (let i = 0; i < filteredArr.length; i++) {
-        //     //     OtherUserEmail.push(filteredArr);
-        //     // }
-        // }
     };
 
 
@@ -86,7 +59,6 @@ const ChatRoom = ({ route, navigation }) => {
         });
 
         socket.on("users", ({ arr }) => {
-            // console.log(arr);
             setOtherUserDetails(arr);
         })
 
@@ -94,51 +66,6 @@ const ChatRoom = ({ route, navigation }) => {
             if(socket) socket.disconnect();
         }
     })
-
-    // useEffect(() => {
-
-    //     const socket = io("http://192.168.1.6:8000/");
-
-    //     socket.emit("chat message", {
-    //         "OtherUserEmailId": OtherUserEmailId,
-    //         "MyEmail": MyData.email
-    //     });
-
-    //     socket.on("messages", ({ Details, Arr }) => {
-    //         if (Details.length != 0 && Arr.length != 0) {
-    //             // console.log(Details);
-    //             for (let i = 0; i < Details.length; i++) {
-    //                 OtherUserDetails.push(Details[i]);
-    //                 OtherUserEmailId.push(Arr[i])
-    //             }
-
-    //             const filteredArr = OtherUserDetails.reduce((acc, current) => {
-    //                 const x = acc.find(item => item.email === current.email);
-    //                 if (!x) {
-    //                     return acc.concat([current]);
-    //                 } else {
-    //                     return acc;
-    //                 }
-    //             }, []);
-
-
-    //             const filteredArr1 = OtherUserDetails.reduce((acc, current) => {
-    //                 const x = acc.find(item => item === current);
-    //                 if (!x) {
-    //                     return acc.concat([current]);
-    //                 } else {
-    //                     return acc;
-    //                 }
-    //             }, []);
-
-    //             console.log('filteredArr', filteredArr)
-    //             console.log('filteredArr1', filteredArr1)
-
-    //             setOtherUserDetails(filteredArr);
-    //             setOtherUserEmailId(filteredArr1);
-    //         }
-    //     })
-    // })
 
 
     const startLoading = () => {
@@ -160,11 +87,9 @@ const ChatRoom = ({ route, navigation }) => {
                 paddingBottom: 10,
             }}>
                 <Text style={{ fontSize: 20 }}>{`${name}` + " " + `${lname == undefined ? "" : lname}`}</Text>
-                {/* <Text style={{
-                    height: 16
-                }}>msg  sknlshdasjkchdjjjcjceeddeqwwww.google.com</Text> */}
+
             </View>
-            {/* <Text>{date}</Text> */}
+
         </View>
     );
 
